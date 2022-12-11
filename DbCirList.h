@@ -9,17 +9,21 @@ class DbCirList
 
 public:
     DbCirList();
+    // copy constructor
+    DbCirList(const DbCirList &c);
     ~DbCirList();
-    void Insert(T s);
-    void Remove(T s);
+    void InsertBack(const T s);
+    void InsertFront(const T s);
+    void RemoveBack();
+    void RemoveFront();
 
     class Iterator;
-    Iterator begin();
-    Iterator end();
+    Iterator begin() const { return Iterator(first); }
+    Iterator end() const { return Iterator(first->left); }
 
     template <class U>
     friend ostream &operator<<(ostream &os, DbCirList &s);
-
+    // biderectonal iterator
     class Iterator
     {
     public:
@@ -52,7 +56,14 @@ public:
             current = current->left;
             return old;
         }
-        bool operator!=(const);
+        bool operator!=(const Iterator right) const
+        {
+            return current != right.current;
+        }
+        bool operator==(const Iterator right) const
+        {
+            return current == right.current;
+        }
 
     private:
         Node *current;

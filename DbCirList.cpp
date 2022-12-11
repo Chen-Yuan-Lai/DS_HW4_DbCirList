@@ -6,9 +6,31 @@ template <class T>
 DbCirList<T>::DbCirList()
 {
     Node *head = new Node;
-    head->left = head;
-    head->right = head;
+    Node *tail = new Node;
+    head->left = tail;
+    head->right = tail;
+    tail->left = head;
+    tail->right = head;
     first = head;
+}
+template <class T>
+DbCirList<T>::DbCirList(const DbCirList &c)
+{
+    Node *head = new Node;
+    Node *tail = new Node;
+    head->left = tail;
+    head->right = tail;
+    tail->left = head;
+    tail->right = head;
+    first = head;
+
+    // copy nodes of c into *this
+    typename DbCirList<T>::Iterator i = c.begin();
+    i++;
+    for (; i != c.end(); i++)
+    {
+        InsertBack(*i);
+    }
 }
 
 template <class T>
@@ -26,11 +48,43 @@ DbCirList<T>::~DbCirList()
 }
 
 template <class T>
-void DbCirList<T>::Insert(T s)
+void DbCirList<T>::InsertBack(const T s)
 { // insert a node to right of the list
-    Node p = new Node(s);
-    p->left = first->left;
-    p->right = first->left->right;
-    first->left->right->left = p;
-    first->left->right = p;
+    Node *p = new Node(s);
+    p->left = first->left->left;
+    p->right = first->left;
+    first->left->left->right = p;
+    first->left->left = p;
+}
+
+template <class T>
+void DbCirList<T>::InsertFront(const T s)
+{
+    Node *p = new Node(s);
+    p->left = first;
+    p->right = first->right;
+    first->right = p;
+    first->right->left = p;
+}
+
+template <class T>
+void DbCirList<T>::RemoveBack()
+{
+    if (first->left->left == first)
+        throw "list is empty";
+    Node *x = first->left->left;
+    x->left->right = x->right;
+    x->right->left = x->left;
+    delete x;
+}
+
+template <class T>
+void DbCirList<T>::RemoveFront()
+{
+    if (first->left->left == first)
+        throw "list is empty";
+    Node *x = first->right;
+    x->left->right = x->right;
+    x->right->left = x->left;
+    delete x;
 }
