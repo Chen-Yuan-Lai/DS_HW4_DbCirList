@@ -6,7 +6,35 @@ using namespace std;
 int main()
 {
     DbCirList<int> a;
-    a.InsertBack(1);
+    while (1)
+    {
+        int option;
+        int num;
+        cout << "1) InsertBack 2) InsertFront "
+             << "3) RemoveBack 4) RemoveFront "
+             << "5) Output(Forward) 6) Output(Backward): ";
+        cin >> option;
+        cout << endl;
+        if (option == 1)
+        {
+            cout << "Enter input number: " << endl;
+            cin >> num;
+            a.InsertBack(num);
+            cout << endl;
+        }
+        else if (option == 2)
+        {
+            cout << "Enter input number: " << endl;
+            cin >> num;
+            a.InsertFront(num);
+            cout << endl;
+        }
+        else if (option == 3)
+        {
+            cout << "Enter number: " << endl;
+        }
+    }
+
     a.InsertBack(2);
     a.InsertBack(3);
     a.InsertBack(4);
